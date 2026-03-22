@@ -1,0 +1,6 @@
+[submodule ".ralph-template"]
+	path = .ralph-template
+	url = https://github.com/qte77/ralph-loop-cc-tdd-wt-vibe-kanban-template.git
+[submodule "research"]
+	path = research
+	url = https://github.com/qte77/coding-agents-research.git

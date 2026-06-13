@@ -90,13 +90,13 @@ Teams, skills, hooks. Goal: measure the uplift from agent-specific power feature
 | Path | Purpose |
 |---|---|
 | `.ralph-template/` | Scaffold template (SOT for `ralph/` scripts and generic `.claude/` items) |
-| `research/` | [`coding-agents-research`](https://github.com/qte77/coding-agents-research) — landscape research for agent capabilities |
+| `research/` | [`ai-agents-research`](https://github.com/qte77/ai-agents-research) — landscape research for agent capabilities |
 
 ## Related Repos
 
 - [`cc-recursive-team-mode`](https://github.com/qte77/cc-recursive-team-mode) — CC-specific subprocess harness (dependency)
 - [`multi-tasking-quality-benchmark`](https://github.com/qte77/multi-tasking-quality-benchmark) — developer productivity benchmarking (related)
-- [`coding-agents-research`](https://github.com/qte77/coding-agents-research) — landscape research (submodule at `research/`)
+- [`ai-agents-research`](https://github.com/qte77/ai-agents-research) — landscape research (submodule at `research/`)
 
 ## License
 

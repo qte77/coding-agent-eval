@@ -136,7 +136,7 @@ coding-agent-eval/
       graders/
         test_validate_grader.py
         test_diff_grader.py
-  research/             # submodule: coding-agents-research
+  research/             # submodule: ai-agents-research
   .ralph-template/      # submodule: scaffold template SOT
   Makefile
   Makefile.python

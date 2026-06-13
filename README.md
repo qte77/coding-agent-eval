@@ -100,4 +100,4 @@ Teams, skills, hooks. Goal: measure the uplift from agent-specific power feature
 
 ## License
 
-MIT — see [LICENSE.md](LICENSE.md).
+Apache-2.0 — see [LICENSE.md](LICENSE.md).

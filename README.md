@@ -8,7 +8,7 @@ Runs CC, Cline, opencode, Codebuff, and Gemini CLI headless on identical specs, 
 
 **Phase 0** — scaffolding done, implementation pending.
 
-Already present: `Makefile`, `Makefile.python`, `ralph/`, `research/` submodule, `.ralph-template/` submodule, `LICENSE.md`, `SECURITY.md`.
+Already present: `Makefile`, `Makefile.python`, `ralph/`, `research/` submodule, `.ralph-template/` submodule, `LICENSE`, `SECURITY.md`.
 
 ## Quick Start
 
@@ -100,4 +100,4 @@ Teams, skills, hooks. Goal: measure the uplift from agent-specific power feature
 
 ## License
 
-Apache-2.0 — see [LICENSE.md](LICENSE.md).
+Apache-2.0 — see [LICENSE](LICENSE).

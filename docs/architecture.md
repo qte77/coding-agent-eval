@@ -75,7 +75,8 @@ Graders are deterministic — no LLM calls in Phase 1.
 | Module | Grader | Input | Output |
 |---|---|---|---|
 | `validate_grader.py` | `validate_grader` | worktree path | runs `make validate`; 1.0 on pass, 0.0 on fail |
-| `diff_grader.py` | `diff_grader` | git diff vs expected | fraction of expected changes present |
+| `solution_grader.py` | `solution_grader` | agent diff + `expected_solution` | fraction of the canonical change reproduced |
+| `scope_grader.py` | `scope_grader` | agent diff + `target_files` | `scope_adherence` (fraction of changes in-scope) |
 
 ### Models (`src/harness/models.py`)
 
@@ -84,7 +85,7 @@ All data contracts use Pydantic models.
 | Model | Purpose |
 |---|---|
 | `HarnessConfig` | Global harness settings (agents list, specs list, results dir) |
-| `SpecConfig` | Parsed `specs/S0N-<name>.json` — prompt, target files, expected diff |
+| `SpecConfig` | Parsed `specs/S0N-<name>.json` — `prompt`, `target_files`, `fixture`, `expected_solution` (schema locked in `docs/spec-schema.md`) |
 | `RunResult` | Single `(agent, spec)` run outcome — all metrics |
 | `GraderResult` | Output of one grader — name, score, details |
 | `SpecResult` | Aggregated results for one spec across all agents |
@@ -109,6 +110,10 @@ coding-agent-eval/
     S01-validate.json   # Spec: run make validate on a broken repo
     S02-fix-bug.json    # Spec: fix a single known bug
     S03-add-feature.json
+  fixtures/             # Per-spec mini-projects, broken/ + solution/ (M1; see docs/spec-schema.md)
+    S02-fix-bug/
+      broken/
+      solution/
   results/              # Output directory (gitignored)
     claude-S01.json
     comparison.md
@@ -125,7 +130,8 @@ coding-agent-eval/
         __init__.py
         base.py         # Grader ABC
         validate_grader.py
-        diff_grader.py
+        solution_grader.py
+        scope_grader.py
   tests/
     harness/
       test_runner.py
@@ -135,7 +141,8 @@ coding-agent-eval/
         test_generic_collector.py
       graders/
         test_validate_grader.py
-        test_diff_grader.py
+        test_solution_grader.py
+        test_scope_grader.py
   research/             # submodule: ai-agents-research
   .ralph-template/      # submodule: scaffold template SOT
   Makefile
@@ -154,7 +161,7 @@ coding-agent-eval/
 | `cost_usd` | `float` | collector | Estimated cost in USD |
 | `turn_count` | `int` | collector | Number of agent turns / tool calls |
 | `files_changed` | `int` | collector | Count of files modified in the worktree |
-| `scope_adherence` | `float` (0.0–1.0) | diff_grader | Fraction of changes within spec-expected paths |
+| `scope_adherence` | `float` (0.0–1.0) | scope_grader | Fraction of changes within spec-expected paths |
 
 ## Comparison Phases
 

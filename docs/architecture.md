@@ -140,7 +140,7 @@ coding-agent-eval/
   .ralph-template/      # submodule: scaffold template SOT
   Makefile
   Makefile.python
-  LICENSE.md
+  LICENSE
   SECURITY.md
 ```
 

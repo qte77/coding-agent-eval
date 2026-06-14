@@ -28,8 +28,7 @@ scaffold; no `src/`).
 `main` = 2 commits (docs only); the full `docs/architecture.md` tree (`src/harness/*`, `specs/`, `agents/`,
 `tests/`, `pyproject.toml`, `scripts/compare.py`) is missing. README Quick-Start is a placeholder.
 Verified: `qte77/ai-agents-research` remote exists (PR #17 unblocked); `cc-recursive-team-mode` dep repo
-exists (API unconfirmed); Vibe-Kanban wired (`vibe_*`); the Ralph loop is the intended build mechanism but
-needs `ralph/docs/prd.json` (absent).
+exists (API unconfirmed).
 
 **Issues (20 → 8 canonical + 2 WakaTime):** close thin dups #1→#10, #2→#9, #3 (out of scope), #4→#11+#13,
 #5→#12+#14, #7→#15; retitle #10. Keep chain **#8→#9→#10→#11→#12→#13→#14→#15**; #6/#20 off critical path.
@@ -92,7 +91,7 @@ explicitly (e.g. payload 02); add a `--dry-run` mode.
   linear history work at Free tier; `code_scanning`/`code_quality` rules need Team+).
 
 **The baseline does NOT cover this project's core risk — running untrusted agents as subprocesses.** Extra,
-repo-specific controls (reported by the posture agent — verify against `ralph/scripts/`):
+repo-specific controls (reported by the posture agent):
 
 - **Sandbox** each agent subprocess via a pluggable `Sandbox` backend (ABC, mirroring Collector/Grader) with a
   tier roadmap:
@@ -111,12 +110,6 @@ repo-specific controls (reported by the posture agent — verify against `ralph/
   is blocked; fall back to T1 only when cloud creds are absent or for fast offline iteration. Record an
   `isolation_tier` per run; publishable results require T2. Gate `--dangerously-skip-permissions` behind an explicit
   env flag.
-- **Secrets:** create `/tmp/ralph/*.env` with `chmod 600`; scope per-worktree; sanitize/reject untrusted
-  `RALPH_INSTRUCTION`.
-- **Treat agent output as untrusted:** JSON-Schema-validate `prd.json`/`metrics.json` before reading scores; HMAC
-  the pre-handoff `prd.json`; strip `@`-mentions from any agent text published to GitHub surfaces.
-- **Prompt-injection:** `LEARNINGS.md`/`REQUESTS.md` are agent-writable and concatenated into later prompts —
-  sanitize or make read-only during runs; audit `eval` usage in `ralph.sh`.
 - **Fix `SECURITY.md`** — it points to the upstream template repo, not `qte77/coding-agent-eval`.
 
 ## 6. Open blockers / de-risk spikes
@@ -140,13 +133,12 @@ repo-specific controls (reported by the posture agent — verify against `ralph/
   in AgentBeats-compatible schema with `run_count`/`*_stddev` (N=3) + an `isolation_tier` field.
 - **Step 4 — Implement Phase-1 harness (#10–#15):** adopt §2 tools + §3 `record_provenance.py`, multi-column
   `comparison.md` (correctness | time | cost | tokens | scope), and the §5 sandbox controls before any real
-  untrusted-agent run. Mechanism: Ralph loop (`ralph/docs/prd.json` from canonical issues) or manual.
+  untrusted-agent run.
 
 ### Items to confirm during execution (defaults in brackets)
 
-License → Apache-2.0 + `LICENSE` rename · build mechanism → Ralph loop · Payload 06 tier behavior (apply trimmed
-subset) · sandbox scope (all runtimes vs. opt-in flag) · add `shellcheck` to CI for `ralph/scripts/` · `results/`
-gitignore policy · prompt-injection policy for `LEARNINGS.md`/`REQUESTS.md`.
+License → Apache-2.0 + `LICENSE` rename · Payload 06 tier behavior (apply trimmed subset) · sandbox scope
+(all runtimes vs. opt-in flag) · `results/` gitignore policy.
 
 ## 8. Verification
 
@@ -155,9 +147,9 @@ gitignore policy · prompt-injection policy for `LEARNINGS.md`/`REQUESTS.md`.
 - CI security: every `uses:` is a full SHA; CodeQL runs on `push` pre-merge; `gh api` shows
   `default_workflow_permissions=read`. Scripts: dry-run/payload audit before `apply.sh`.
 - Agent isolation: a probe agent cannot read another worktree's `/tmp` secrets, escape its worktree, or mutate a
-  shared venv; malformed `prd.json` is rejected by schema validation.
+  shared venv.
 - Spikes: `cc-recursive-team-mode` imports in a throwaway venv; each agent CLI runs one headless task; current
-  Gemini/Antigravity binary confirmed. Ralph: `make ralph_validate_json` passes (dry-run first).
+  Gemini/Antigravity binary confirmed.
 
 ---
 

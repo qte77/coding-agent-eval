@@ -33,6 +33,9 @@ dependencies = [
 name = "coding-agent-eval"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "pydantic" },
+]
 
 [package.optional-dependencies]
 agents = [
@@ -49,7 +52,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "cc-recursive-team-mode", marker = "extra == 'agents'", git = "https://github.com/qte77/cc-recursive-team-mode" }]
+requires-dist = [
+    { name = "cc-recursive-team-mode", marker = "extra == 'agents'", git = "https://github.com/qte77/cc-recursive-team-mode" },
+    { name = "pydantic", specifier = ">=2.0" },
+]
 provides-extras = ["agents"]
 
 [package.metadata.requires-dev]

@@ -5,7 +5,7 @@ description = "Hands-off harness to run CLI coding agents headless on identical 
 requires-python = ">=3.13"
 readme = "README.md"
 license = "Apache-2.0"
-dependencies = []
+dependencies = ["pydantic>=2.0"]
 
 [project.optional-dependencies]
 # Sibling git repo (import name `cc_recursive`); NOT in the dev group, so CI's

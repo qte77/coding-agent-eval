@@ -137,7 +137,6 @@ coding-agent-eval/
         test_validate_grader.py
         test_diff_grader.py
   research/             # submodule: ai-agents-research
-  .ralph-template/      # submodule: scaffold template SOT
   Makefile
   Makefile.python
   LICENSE
@@ -184,8 +183,6 @@ coding-agent-eval
    +-- cc-recursive-team-mode   (CC subprocess mgmt, artifact parsing)
    |
    +-- research/              (submodule: landscape research, informational only)
-   |
-   +-- .ralph-template/       (submodule: scaffold template SOT)
 ```
 
 `cc-recursive-team-mode` is a runtime dependency for the CC collector. All other agents are invoked via direct subprocess calls with no additional harness dependency.

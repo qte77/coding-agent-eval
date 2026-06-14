@@ -35,7 +35,6 @@ dev = [
 [tool.ruff]
 line-length = 100
 target-version = "py313"
-extend-exclude = ["ralph"] # vendored tooling; quality gates target src/ (cf. pyright, complexipy)
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "S"] # S = flake8-bandit (security)

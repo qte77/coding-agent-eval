@@ -36,11 +36,6 @@ test_coverage:  ## Run tests with coverage threshold (configured in pyproject.to
 	echo "Running tests with coverage gate (fail_under=70% in pyproject.toml)..."
 	uv run pytest --cov
 
-test_e2e:  ## Run E2E tests only (Ralph parallel loop tests)
-	echo "Running E2E tests..."
-	bash ralph/scripts/tests/test_parallel_ralph.sh
-	uv run pytest -m e2e -v
-
 type_check:  ## Check for static typing errors
 	uv run pyright
 

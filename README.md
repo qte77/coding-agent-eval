@@ -8,7 +8,7 @@ Runs CC, Cline, opencode, Codebuff, and Gemini CLI headless on identical specs, 
 
 **Phase 0** — scaffolding done, implementation pending.
 
-Already present: `Makefile`, `Makefile.python`, `ralph/`, `research/` submodule, `.ralph-template/` submodule, `LICENSE`, `SECURITY.md`.
+Already present: `Makefile`, `Makefile.python`, `research/` submodule, `LICENSE`, `SECURITY.md`.
 
 ## Quick Start
 
@@ -89,7 +89,6 @@ Teams, skills, hooks. Goal: measure the uplift from agent-specific power feature
 
 | Path | Purpose |
 |---|---|
-| `.ralph-template/` | Scaffold template (SOT for `ralph/` scripts and generic `.claude/` items) |
 | `research/` | [`ai-agents-research`](https://github.com/qte77/ai-agents-research) — landscape research for agent capabilities |
 
 ## Related Repos

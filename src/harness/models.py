@@ -8,8 +8,9 @@ immutable once produced.
 """
 
 from enum import StrEnum
+from typing import Self
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 _STRICT = ConfigDict(strict=True, frozen=True)
 
@@ -49,12 +50,23 @@ class GraderResult(BaseModel):
     details: str = Field(default="", description="Human-readable grader detail.")
 
 
-class SpecConfig(BaseModel):
-    """Parsed spec definition (``specs/S0N-<name>.json``).
+class ExpectedSolution(BaseModel):
+    """Pointer to a spec's canonical solution.
 
-    The expected-outcome representation (diff text vs file list vs commit SHA) is
-    intentionally omitted pending the schema lock in #23.
+    M1 (locked, #23): a sibling directory of the fixture's ``broken`` tree. M2 (single SUT repo
+    with ``base_ref``/``solution_ref`` pairs) is tracked in #34. See ``docs/spec-schema.md``.
     """
+
+    model_config = _STRICT
+
+    solution_dir: str = Field(
+        default="solution",
+        description="Directory under `fixture` holding the canonical fixed tree.",
+    )
+
+
+class SpecConfig(BaseModel):
+    """Parsed spec definition (``specs/S0N-<name>.json``); the runner↔specs contract (#23)."""
 
     model_config = _STRICT
 
@@ -62,8 +74,24 @@ class SpecConfig(BaseModel):
     name: str = Field(description="Short human-readable spec name.")
     prompt: str = Field(description="Task prompt handed to the agent.")
     target_files: list[str] = Field(
-        default_factory=list, description="Files the spec expects to be touched."
+        default_factory=list,
+        description="Paths the spec expects to change; drives scope_grader / scope_adherence.",
     )
+    fixture: str | None = Field(
+        default=None,
+        description="Path to the fixture dir; the agent starts in `<fixture>/broken/`. "
+        "None for a pure-prompt spec.",
+    )
+    expected_solution: ExpectedSolution | None = Field(
+        default=None,
+        description="Canonical solution for solution_grader; None runs validate_grader only.",
+    )
+
+    @model_validator(mode="after")
+    def _solution_requires_fixture(self) -> Self:
+        if self.expected_solution is not None and self.fixture is None:
+            raise ValueError("expected_solution requires a fixture to resolve it against")
+        return self
 
 
 class RunResult(BaseModel):

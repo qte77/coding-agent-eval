@@ -9,8 +9,6 @@ accept = [200, 204, 301, 403, 401, 429]
 exclude_path = [
   ".venv",
   ".github/workflows",
-  "ralph/scripts",
-  "ralph/docs/templates",  # template files with placeholder links
 ]
 
 # Exclude URLs that commonly fail in CI

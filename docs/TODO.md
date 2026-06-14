@@ -11,7 +11,7 @@ version: 1.0.0
 
 ## Done
 
-- [x] Template scaffold (Makefile, Makefile.python, ralph/, .ralph-template/ submodule)
+- [x] Template scaffold (Makefile, Makefile.python)
 - [x] Research submodule (`research/` pointing to ai-agents-research)
 - [x] LICENSE, SECURITY.md
 - [x] Foundational docs (README.md, docs/UserStory.md, docs/architecture.md, docs/TODO.md)

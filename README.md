@@ -4,6 +4,8 @@ Hands-off coding agent comparison harness
 
 Runs CC, Cline, opencode, Codebuff, and Gemini CLI headless on identical specs, collects structured metrics, and generates comparison reports.
 
+**Write-up:** the evaluator in an open agentic coding harness — [An Open Agentic Coding Harness](https://qte77.github.io/open-agentic-coding-harness/).
+
 ## Status
 
 **Phase 0** — scaffolding done, implementation pending.

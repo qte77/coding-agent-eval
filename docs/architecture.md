@@ -52,7 +52,7 @@ Collector ABC defines the interface. Each agent has its own implementation.
 | Module | Agent | Method |
 |---|---|---|
 | `cc_collector.py` | Claude Code | Wraps `cc-recursive-team-mode` via subprocess; parses `raw_stream.jsonl` for token/turn data |
-| `generic_collector.py` | Cline, opencode, Codebuff, Gemini CLI | Invokes agent CLI directly; captures stdout/stderr and wall time |
+| `generic_collector.py` | Cline, opencode, Codebuff, Antigravity CLI | Invokes agent CLI directly; captures stdout/stderr and wall time |
 
 Integration with `cc-recursive-team-mode`:
 

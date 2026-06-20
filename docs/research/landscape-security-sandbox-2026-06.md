@@ -124,6 +124,8 @@ repo-specific controls (reported by the posture agent):
 
 ## 7. Recommended forward plan (ordered)
 
+**Status (2026-06-20):** graders-first slice progressed — `ValidateGrader` and `ScopeGrader` implemented; `SolutionGrader` spec'd with xfail tests (TDD red, impl pending).
+
 - **Step 1 — Repo hygiene + CI security quick-wins:** merge #16→#17→#18; license `git mv` + close #19; close dup
   issues + retitle #10; SHA-pin all actions, swap in baseline `codeql.yaml`, fix post-merge triggers, apply Payload
   02 (after auditing), swap Dependabot→uv, add Ruff `S`, fix `.gitignore` + `SECURITY.md`.

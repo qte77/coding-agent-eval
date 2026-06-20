@@ -7,6 +7,9 @@ __pycache__/
 *.env
 unset_env.sh
 
+# Claude Code local permission grants (never commit)
+.claude/settings.local.json
+
 # Distribution / packaging
 build/
 dist/

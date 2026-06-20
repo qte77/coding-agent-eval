@@ -1,17 +1,36 @@
 {
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "1",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1"
+  },
+  "outputStyle": "default",
+  "spinnerTipsEnabled": true,
+  "prefersReducedMotion": true,
+  "statusLine": {
+    "type": "command",
+    "command": "bash .claude/scripts/statusline.sh"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "workspace-setup@qte77-claude-code-plugins": true,
+    "python-dev@qte77-claude-code-plugins": true,
+    "tdd-core@qte77-claude-code-plugins": true,
+    "commit-helper@qte77-claude-code-plugins": true,
+    "codebase-tools@qte77-claude-code-plugins": true,
+    "makefile-core@qte77-claude-code-plugins": true,
+    "docs-generator@qte77-claude-code-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "qte77-claude-code-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "qte77/claude-code-plugins"
+      }
+    }
+  },
   "attribution": {
     "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
     "pr": "Generated with Claude <noreply@anthropic.com>"
-  },
-  "enabledPlugins": {
-    "commit-helper@qte77-claude-code-utils": true
-  },
-  "extraKnownMarketplaces": {
-    "qte77-claude-code-utils": {
-      "source": {
-        "source": "github",
-        "repo": "qte77/claude-code-utils-plugin"
-      }
-    }
   }
 }

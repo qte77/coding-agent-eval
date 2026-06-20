@@ -1,4 +1,64 @@
 #!/bin/bash
+#
+# World clock (opt-in)
+# --------------------
+# Local time is always shown. To append additional zones, configure either:
+#
+#   (1) CC_WORLD_CLOCK env var — set in your shell rc; persistent across
+#       sessions. Requires CC restart to change (env is fixed at launch).
+#
+#   (2) ~/.claude/world-clock file — single line of comma-separated zones.
+#       Live toggle: edit/delete the file and the next prompt render picks
+#       it up, no CC restart needed. Use when you want to flip clocks on/off
+#       inside an active session.
+#
+# Precedence: env var wins; file is the fallback. Unset env + missing/empty
+# file = off (default).
+#
+# Zones render in the order you list them. Suggested convention:
+# order east-to-west (sunrise order) so time decreases left-to-right.
+#
+# Each entry is either a bare IANA zone (label defaults to the city, e.g.
+# "Europe/Paris" → "Paris") or "Zone=Label" to override the rendered label
+# (e.g. "America/New_York=NYC" → "NYC"). Mix and match freely.
+#
+# Suggested default (env-var form, copy to your shell rc):
+#   export CC_WORLD_CLOCK="Asia/Tokyo,Europe/Paris,Europe/London,UTC,America/New_York,America/Los_Angeles"
+#
+# Short-label variant (terser statusline):
+#   export CC_WORLD_CLOCK="Asia/Tokyo=TYO,Europe/Paris=PAR,Europe/London=LDN,UTC,America/New_York=NYC,America/Los_Angeles=LA"
+#
+# Live-toggle form:
+#   echo "Asia/Tokyo,Europe/Paris,Europe/London,UTC,America/New_York,America/Los_Angeles" > ~/.claude/world-clock
+#   rm ~/.claude/world-clock                                                                # turn off
+#
+# Other examples:
+#   export CC_WORLD_CLOCK="Asia/Tokyo,Asia/Singapore,UTC"
+#
+# Use IANA Region/City names (system tzdata under /usr/share/zoneinfo).
+# DST is handled automatically. Invalid zones render as "?<name>" so typos
+# are visible at a glance. On Alpine, install tzdata first: apk add tzdata.
+#
+# When set, world-clock zones render on their own line below the main
+# statusline. If your local zone is in the list it will appear twice —
+# omit it from CC_WORLD_CLOCK to avoid duplication.
+#
+# Curated shortlist (full list: find /usr/share/zoneinfo -type f):
+#   UTC anchor : UTC
+#   Americas   : America/Los_Angeles America/Denver America/Chicago
+#                America/New_York America/Toronto America/Mexico_City
+#                America/Sao_Paulo America/Argentina/Buenos_Aires
+#   Europe     : Europe/London Europe/Dublin Europe/Lisbon Europe/Paris
+#                Europe/Berlin Europe/Madrid Europe/Rome Europe/Amsterdam
+#                Europe/Zurich Europe/Stockholm Europe/Warsaw Europe/Athens
+#                Europe/Istanbul Europe/Moscow
+#   Africa/ME  : Africa/Lagos Africa/Cairo Africa/Johannesburg
+#                Asia/Jerusalem Asia/Dubai Asia/Riyadh
+#   Asia       : Asia/Karachi Asia/Kolkata Asia/Dhaka Asia/Bangkok
+#                Asia/Jakarta Asia/Singapore Asia/Hong_Kong Asia/Shanghai
+#                Asia/Taipei Asia/Seoul Asia/Tokyo
+#   Oceania    : Australia/Perth Australia/Adelaide Australia/Sydney
+#                Pacific/Auckland Pacific/Honolulu
 
 input=$(cat)
 
@@ -59,9 +119,34 @@ fi
 user=$(whoami)
 time=$(date +%H:%M:%S)
 
+# Build world-clock line. Source order:
+#   1. $CC_WORLD_CLOCK env var (set in shell rc, requires CC restart to change)
+#   2. ~/.claude/world-clock file content (live toggle — picked up on next render)
+# If your local zone is in the list (e.g. Europe/Paris while in Paris) it will
+# appear twice — omit it to avoid duplication.
+clocks=""
+zones_spec="${CC_WORLD_CLOCK:-$(cat "$HOME/.claude/world-clock" 2>/dev/null)}"
+if [ -n "$zones_spec" ]; then
+    IFS=',' read -ra _zones <<< "$zones_spec"
+    for entry in "${_zones[@]}"; do
+        tz="${entry%%=*}"
+        label="${entry#*=}"
+        [ "$label" = "$entry" ] && label="${tz##*/}"
+        if [ -f "/usr/share/zoneinfo/$tz" ]; then
+            clocks+=" ${label}:$(TZ="$tz" date +%H:%M)"
+        else
+            clocks+=" ?${tz}"
+        fi
+    done
+fi
+
 if git rev-parse --git-dir >/dev/null 2>&1; then
     branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
     else branch=""
 fi
 
 printf "\\033[0;31magent:%s \\033[0;33mmodel:%s \\033[2mver:%s \\033[0;34mcost:%s \\033[0;36mdur:%s\\n\\033[0;32mlines:%s \\033[2mtokens(i/o):%s ${ctx_color}ctx(free):%s\\033[0m \\033[0;31m>200k:%s\\033[0m\\n\\033[2mdir:%s \\033[0;36mbranch:%s \\033[0;32muser:%s \\033[0;35mtime:%s\\033[0m" "$agent" "$model" "$version" "$cost" "$duration" "$lines_changed" "$tokens" "$remaining" "$exc_context" "$(basename "$cwd")" "$branch" "$user" "$time"
+
+if [ -n "$clocks" ]; then
+    printf "\\n\\033[0;35mclocks:%s\\033[0m" "$clocks"
+fi

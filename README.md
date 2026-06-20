@@ -2,15 +2,19 @@
 
 Hands-off coding agent comparison harness
 
-Runs CC, Cline, opencode, Codebuff, and Gemini CLI headless on identical specs, collects structured metrics, and generates comparison reports.
+Runs CC, Cline, opencode, Codebuff, and Antigravity CLI headless on identical specs, collects structured metrics, and generates comparison reports.
 
 **Write-up:** the evaluator in an open agentic coding harness — [An Open Agentic Coding Harness](https://qte77.github.io/open-agentic-coding-harness/).
 
 ## Status
 
-**Phase 0** — scaffolding done, implementation pending.
+**Phase 0** — graders-first slice in progress; collector and runner implementation pending.
 
 Already present: `Makefile`, `Makefile.python`, `research/` submodule, `LICENSE`, `SECURITY.md`.
+
+Grader package: `Grader` ABC + `ValidateGrader` and `ScopeGrader` implemented; `SolutionGrader`
+stubbed (TDD red — spec tests added as `xfail`, implementation pending). Evaluated agents: CC, Cline,
+opencode, Codebuff, Antigravity CLI (renamed from Gemini CLI 2026-06-18).
 
 ## Quick Start
 

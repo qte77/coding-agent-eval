@@ -104,7 +104,7 @@ coding-agent-eval/
       phase1/
     codebuff/
       phase1/
-    gemini/
+    antigravity/
       phase1/
   specs/
     S01-validate.json   # Spec: run make validate on a broken repo

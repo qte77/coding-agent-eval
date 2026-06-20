@@ -37,3 +37,15 @@ def test_no_target_files_means_no_scope_constraint():
     r = _grade("anything.py\n", [])
     assert r.score == 1.0
     assert r.passed
+
+
+def test_all_in_scope_scores_one():
+    r = _grade("src/a.py\nsrc/b.py\n", ["src/a.py", "src/b.py"])
+    assert r.score == 1.0
+    assert r.passed
+
+
+def test_none_in_scope_scores_zero():
+    r = _grade("README.md\nsetup.cfg\n", ["src/a.py"])
+    assert r.score == 0.0
+    assert not r.passed

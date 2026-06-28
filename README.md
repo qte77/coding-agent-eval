@@ -1,22 +1,26 @@
 # coding-agent-eval
 
-Hands-off coding agent comparison harness
+> Hands-off coding-agent comparison harness
 
-Runs CC, Cline, opencode, Codebuff, and Antigravity CLI headless on identical specs, collects structured metrics, and generates comparison reports.
+[![License](https://img.shields.io/badge/license-Apache--2.0-58f4c2.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](pyproject.toml)
+[![CodeQL](https://github.com/qte77/coding-agent-eval/actions/workflows/codeql.yaml/badge.svg)](https://github.com/qte77/coding-agent-eval/actions/workflows/codeql.yaml)
+[![ruff](https://github.com/qte77/coding-agent-eval/actions/workflows/ruff.yaml/badge.svg)](https://github.com/qte77/coding-agent-eval/actions/workflows/ruff.yaml)
+[![pyright](https://github.com/qte77/coding-agent-eval/actions/workflows/pyright.yaml/badge.svg)](https://github.com/qte77/coding-agent-eval/actions/workflows/pyright.yaml)
+[![pytest](https://github.com/qte77/coding-agent-eval/actions/workflows/pytest.yaml/badge.svg)](https://github.com/qte77/coding-agent-eval/actions/workflows/pytest.yaml)
+[![complexipy](https://github.com/qte77/coding-agent-eval/actions/workflows/complexipy.yaml/badge.svg)](https://github.com/qte77/coding-agent-eval/actions/workflows/complexipy.yaml)
+[![links](https://github.com/qte77/coding-agent-eval/actions/workflows/links-fail-fast.yaml/badge.svg)](https://github.com/qte77/coding-agent-eval/actions/workflows/links-fail-fast.yaml)
 
-**Write-up:** the evaluator in an open agentic coding harness — [An Open Agentic Coding Harness](https://qte77.github.io/open-agentic-coding-harness/).
+## What
 
-## Status
+- Runs CC, Cline, opencode, Codebuff, and Antigravity CLI headless on identical specs
+- Collects structured metrics: correctness, wall time, tokens, cost, turn count, scope adherence
+- Generates comparison reports across all agent-spec combinations
+- Grader package: `Grader` ABC + `ValidateGrader` and `ScopeGrader` implemented; `SolutionGrader` stubbed (TDD red, implementation pending)
+- Phase 0 in progress: graders-first slice done; collector and runner implementation pending
+- Already present: `Makefile`, `Makefile.python`, `research/` submodule, `LICENSE`, `SECURITY.md`
 
-**Phase 0** — graders-first slice in progress; collector and runner implementation pending.
-
-Already present: `Makefile`, `Makefile.python`, `research/` submodule, `LICENSE`, `SECURITY.md`.
-
-Grader package: `Grader` ABC + `ValidateGrader` and `ScopeGrader` implemented; `SolutionGrader`
-stubbed (TDD red — spec tests added as `xfail`, implementation pending). Evaluated agents: CC, Cline,
-opencode, Codebuff, Antigravity CLI (renamed from Gemini CLI 2026-06-18).
-
-## Quick Start
+## How
 
 ```bash
 # Run a single agent on a single spec
@@ -29,28 +33,20 @@ make run-all
 make compare
 ```
 
-> Note: Quick Start commands are placeholders. Implementation is pending Phase 1.
+These commands are Phase-0 placeholders; runner and collector implementation is pending. See [docs/architecture.md](docs/architecture.md) for the full data flow.
 
-## Architecture
+## Why
 
-See [docs/architecture.md](docs/architecture.md) for the full data flow, component descriptions, metrics definitions, and phase definitions.
+Comparing coding agents is usually ad-hoc and manual — each tool gets run under different conditions, making results incomparable. This harness runs them hands-off on identical specs under the same environment, producing apples-to-apples metrics for informed agent selection.
 
-## Dependencies
+## References
 
-- [`cc-recursive-team-mode`](https://github.com/qte77/cc-recursive-team-mode) — CC subprocess management and artifact collection
-
-## Submodules
-
-| Path | Purpose |
-|---|---|
-| `research/` | [`ai-agents-research`](https://github.com/qte77/ai-agents-research) — landscape research for agent capabilities |
-
-## Related Repos
-
-- [`cc-recursive-team-mode`](https://github.com/qte77/cc-recursive-team-mode) — CC-specific subprocess harness (dependency)
-- [`multi-tasking-quality-benchmark`](https://github.com/qte77/multi-tasking-quality-benchmark) — developer productivity benchmarking (related)
-- [`ai-agents-research`](https://github.com/qte77/ai-agents-research) — landscape research (submodule at `research/`)
+- [docs/architecture.md](docs/architecture.md)
+- [`cc-recursive-team-mode`](https://github.com/qte77/cc-recursive-team-mode)
+- [`multi-tasking-quality-benchmark`](https://github.com/qte77/multi-tasking-quality-benchmark)
+- [`ai-agents-research`](https://github.com/qte77/ai-agents-research)
+- [An Open Agentic Coding Harness](https://qte77.github.io/open-agentic-coding-harness/)
 
 ## License
 
-Apache-2.0 — see [LICENSE](LICENSE).
+Apache-2.0 - see [LICENSE](LICENSE).

@@ -56,3 +56,6 @@ site/
 # jscpd
 .jscpd/
 jscpd-report.json
+
+# Scaffold directories (untracked by design)
+.scaffold
